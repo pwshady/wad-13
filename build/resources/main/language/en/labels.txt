@@ -1,0 +1,33 @@
+<--Top Menu-->
+WADProjectTopView__menu__file=File
+WADProjectTopView__menu__file__new_project=New project
+WADProjectTopView__menu__file__open_project=Open project
+
+<--ValidationProject-->
+ValidationProject__error__The_project_name_field_should_not_be_empty=The project name field should not be empty
+ValidationProject__error__The_project_name_field_should_consist_only_of_A-Za-z0-9=The project name field should consist only of A-Za-z0-9
+ValidationProject__error__The_domen_name_field_should_not_be_empty=The domen name field should not be empty
+ValidationProject__error__The_domen_name_field_must_consist_of_a_url_without_a_protocol,_www_is_not_required=The domen name field must consist of a url without a protocol, www is not required
+ValidationProject__error__The_field_should_not_be_empty__part1=The "
+ValidationProject__error__The_field_should_not_be_empty__part2=" field should not be empty
+ValidationProject__error__The_field_should_consist_only_of_0-9=The field should consist only of 0-9
+ValidationProject__error__The_field_can_contain_a_maximum_of_14_characters=The field can contain a maximum of 14 characters
+ValidationProject__error__Date_and_time_less_than_minimum=Date and time less than minimum
+ValidationProject__error__Date_and_time_greater_than_the_maximum=Date and time greater than the maximum
+ValidationProject__error__The_directory_field_should_not_be_empty=The directory field should not be empty
+ValidationProject__error__Invalid_directory_path=Invalid directory path
+
+<--Form CreateProject-->
+WADCreateProjectView__formname=Create project
+WADCreateProjectView__projectname=Project name:
+WADCreateProjectView__projectname__error1=A project with the same name already exists. Cannot be created.
+WADCreateProjectView__projectname__error2=A directory with that name already exists. The operation of the program may not be correct
+WADCreateProjectView__domenname=Domen name:
+WADCreateProjectView__datefrom=Date from:
+WADCreateProjectView__button__minimum=minimum
+WADCreateProjectView__dateto=Date to:
+WADCreateProjectView__button__maximum=maximum
+WADCreateProjectView__Files_directory=Files directory:
+WADCreateProjectView__button__path=path
+WADCreateProjectView__button__creat=creat
+WADCreateProjectView__button__cancel=cancel

@@ -1,0 +1,33 @@
+<--Top Menu-->
+WADProjectTopView__menu__file=Файл
+WADProjectTopView__menu__file__new_project=Новый проект
+WADProjectTopView__menu__file__open_project=Открыть проект
+
+<--ValidationProject-->
+ValidationProject__error__The_project_name_field_should_not_be_empty=Поле названия проекта не должно быть пустым
+ValidationProject__error__The_project_name_field_should_consist_only_of_A-Za-z0-9=Поле названия проекта должно состоять только из A-Za-z0-9
+ValidationProject__error__The_domen_name_field_should_not_be_empty=Поле имени домена не должно быть пустым
+ValidationProject__error__The_domen_name_field_must_consist_of_a_url_without_a_protocol,_www_is_not_required=Поле имени домена должно состоять из URL без протокола, www не требуется
+ValidationProject__error__The_field_should_not_be_empty__part1=Поле: "
+ValidationProject__error__The_field_should_not_be_empty__part2=" не должно быть пустым
+ValidationProject__error__The_field_should_consist_only_of_0-9=Поле должно состоять только из 0-9
+ValidationProject__error__The_field_can_contain_a_maximum_of_14_characters=Поле может содержать не более 14 символов
+ValidationProject__error__Date_and_time_less_than_minimum=Дата и время меньше минимума
+ValidationProject__error__Date_and_time_greater_than_the_maximum=Дата и время больше максимального
+ValidationProject__error__The_directory_field_should_not_be_empty=Поле каталога не должно быть пустым
+ValidationProject__error__Invalid_directory_path=Неверный путь к каталогу
+
+<--Form CreateProject-->
+WADCreateProjectView__formname=Создать проект
+WADCreateProjectView__projectname=Название проекта:
+WADCreateProjectView__projectname__error1=Проект с таким названием уже существует. Невозможно создать.
+WADCreateProjectView__projectname__error2=Каталог с таким именем уже существует. Работа программы может быть некорректной
+WADCreateProjectView__domenname=Имя домена:
+WADCreateProjectView__datefrom=Дата, с:
+WADCreateProjectView__button__minimum=минимум
+WADCreateProjectView__dateto=Дата до:
+WADCreateProjectView__button__maximum=максимум
+WADCreateProjectView__Files_directory=Каталог файлов:
+WADCreateProjectView__button__path=дорожка
+WADCreateProjectView__button__creat=создать
+WADCreateProjectView__button__cancel=отменить

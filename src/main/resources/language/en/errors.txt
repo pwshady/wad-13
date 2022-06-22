@@ -1,0 +1,5 @@
+0=Unknown error
+101=Error while reading file
+102=Error writing file
+111=file structure error
+1001=Localization file not found
