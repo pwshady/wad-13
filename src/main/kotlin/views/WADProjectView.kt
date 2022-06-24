@@ -30,7 +30,7 @@ class WADProjectView(wadProject: WADProject) : Fragment() {
         wadJob.main()
         var viewFileStructure = mutableListOf<ViewFileStructure>().observable()
 
-        fun createLocalFileStructure(){
+        fun createLocalFileStructure(startIndex : Int, total : Int){
             var rr = wadJob.filesStructureList[0].second[0].second
             var rrList = mutableListOf<WADVersionFileData>().observable()
             rrList.add(rr)
@@ -87,7 +87,7 @@ class WADProjectView(wadProject: WADProject) : Fragment() {
                 }
             }
             statusLabel = label {
-                text = "ggggg"+wadProjectController.getStatus(wadProject.name)
+                text = wadProjectController.getStatus(wadProject.name)
             }
             WADStatic.WADstat.wadProjectList.onChange {
                 if (WADStatic.WADstat.wadProjectList.lastOrNull { it.projectName == wadProject.name } != null){
