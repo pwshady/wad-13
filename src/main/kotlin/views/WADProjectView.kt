@@ -31,6 +31,7 @@ class WADProjectView(wadProject: WADProject) : Fragment() {
         var viewFileStructure = mutableListOf<ViewFileStructure>().observable()
 
         fun createLocalFileStructure(startIndex : Int, total : Int){
+
             var rr = wadJob.filesStructureList[0].second[0].second
             var rrList = mutableListOf<WADVersionFileData>().observable()
             rrList.add(rr)
@@ -96,7 +97,7 @@ class WADProjectView(wadProject: WADProject) : Fragment() {
                     var statusCode = WADStatic.WADstat.wadProjectList.lastOrNull { it.projectName == wadProject.name }!!.statusCode
                     println(WADStatic.WADstat.wadProjectList.lastOrNull { it.projectName == wadProject.name })
                     if (statusCode == 1){
-                        createLocalFileStructure()
+                        createLocalFileStructure(0, 99)
                     }
                 }
             }
