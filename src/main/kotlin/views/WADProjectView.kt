@@ -31,6 +31,11 @@ class WADProjectView(wadProject: WADProject) : Fragment() {
         var viewFileStructure = mutableListOf<ViewFileStructure>().observable()
 
         fun createLocalFileStructure(startIndex : Int, total : Int){
+            if (wadJob.filesStructureList.size< startIndex + total){
+                val localTotal = wadJob.filesStructureList.size - startIndex
+            } else {
+                val localTotal = total
+            }
 
             var rr = wadJob.filesStructureList[0].second[0].second
             var rrList = mutableListOf<WADVersionFileData>().observable()
