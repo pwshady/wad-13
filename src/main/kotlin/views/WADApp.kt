@@ -1,5 +1,6 @@
 package views
 
+import Singleton.FileDownload
 import javafx.stage.Stage
 import tornadofx.App
 

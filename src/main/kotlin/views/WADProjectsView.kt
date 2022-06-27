@@ -1,6 +1,8 @@
 package views
 
+import Singleton.FileDownload
 import javafx.scene.Parent
+import staticWAD.WADStatic
 import tornadofx.*
 
 
@@ -16,7 +18,6 @@ class WADProjectsView() : View() {
 
         button("t1"){
             action {
-
             }
         }
         center(WADProjectCenterView::class)

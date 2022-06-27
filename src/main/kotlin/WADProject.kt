@@ -1,4 +1,5 @@
 
+import Singleton.FileDownload
 import file.IOFileData
 import file.IOFileJson
 import staticWAD.WADStatic
