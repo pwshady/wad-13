@@ -9,6 +9,7 @@ import javafx.collections.ObservableList
 import javafx.geometry.Side
 import javafx.scene.Parent
 import javafx.scene.control.*
+import javafx.scene.paint.Color
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -35,6 +36,8 @@ class WADProjectView(wadProject: WADProject) : Fragment() {
         var buttonDownload : Button by singleAssign()
         var comboboxFileType : ComboBox<String> by singleAssign()
         var typeFile = FXCollections.observableArrayList("All types","Html")
+        var comboboxAllFile : ComboBox<String> by singleAssign()
+        var allFile = FXCollections.observableArrayList("All files","Last files")
         var wadJob = WADJob(wadProject)
         wadJob.main()
         var viewFileStructure = mutableListOf<ViewFileStructure>().observable()
@@ -100,8 +103,8 @@ class WADProjectView(wadProject: WADProject) : Fragment() {
             }
         }
 
-        fun downloadFile(){
-            createDownloadFileStructure("", true)
+        fun downloadFile(typeFiles : String, allFiles : Boolean){
+            createDownloadFileStructure(typeFiles, allFiles)
             println(downloadFileStructure)
             println(downloadFileStructure.size)
             thread {
@@ -120,6 +123,9 @@ class WADProjectView(wadProject: WADProject) : Fragment() {
                     }
                     Thread.sleep(100)
                 }
+                buttonStart.disableProperty().set(false)
+                comboboxFileType.disableProperty().set(false)
+                comboboxAllFile.disableProperty().set(false)
                 println("end")
             }
         }
@@ -180,17 +186,32 @@ class WADProjectView(wadProject: WADProject) : Fragment() {
                 this.selectionModel.select(0)
             }
 
+            comboboxAllFile = combobox(){
+                items = allFile
+                this.selectionModel.select(0)
+            }
+
             buttonDownload = button("Download") {
                 action {
+                    var typeFiles = ""
+                    var allFiles = true
                     when(comboboxFileType.selectionModel.selectedIndex){
-                        0 -> println("all")
-                        1 -> println("html")
+                        1 -> typeFiles = "text/html"
+                    }
+                    when(comboboxAllFile.selectionModel.selectedIndex){
+                        1 -> allFiles = false
                     }
                     if (flagDownload){
                         flagDownload = false
+                        buttonStart.disableProperty().set(false)
+                        comboboxFileType.disableProperty().set(false)
+                        comboboxAllFile.disableProperty().set(false)
                     } else {
                         flagDownload = true
-                        downloadFile()
+                        buttonStart.disableProperty().set(true)
+                        comboboxFileType.disableProperty().set(true)
+                        comboboxAllFile.disableProperty().set(true)
+                        downloadFile(typeFiles, allFiles)
                     }
                 }
             }
@@ -221,11 +242,12 @@ class WADProjectView(wadProject: WADProject) : Fragment() {
                     rowExpander(expandOnDoubleClick = true){
                         paddingLeft = expanderColumn.width
                         tableview(it.structureFile){
-                            readonlyColumn("TypeFile", WADVersionFileData::typeFile)
-                            readonlyColumn("CodeFile", WADVersionFileData::codeFile)
-                            readonlyColumn("DadeFile", WADVersionFileData::dateFile)
-                            readonlyColumn("LengthFile", WADVersionFileData::lengthFile)
-                            readonlyColumn("StatusFile", WADVersionFileData::statusFile)
+                            var statusFileColumn = readonlyColumn("StatusFile", WADVersionFileData::statusFile)
+                            var typeFileColumn = readonlyColumn("TypeFile", WADVersionFileData::typeFile)
+                            var codeFileColumn = readonlyColumn("CodeFile", WADVersionFileData::codeFile)
+                            var dateFileColumn = readonlyColumn("DadeFile", WADVersionFileData::dateFile)
+                            var lengthFileColumn = readonlyColumn("LengthFile", WADVersionFileData::lengthFile)
+
                         }
                     }
                 }

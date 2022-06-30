@@ -2,6 +2,7 @@ package views
 
 import javafx.scene.Parent
 import javafx.scene.control.TextField
+import org.jsoup.Jsoup
 import tornadofx.*
 
 class WADProjectRightView() : View() {
@@ -10,7 +11,8 @@ class WADProjectRightView() : View() {
         button("t1"){
             action {
                 //val dao = WADProjectsDao()
-                println( )
+                val doc = Jsoup.connect("https://web.archive.org/web/20121102132909id_/http://web.archive.org/screenshot/http://pozdravok.ru/").get()
+                println(doc.outerHtml())
             }
         }
         from = textfield {  }

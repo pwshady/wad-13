@@ -13,6 +13,8 @@ repositories {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    //Jsoup
+    implementation 'org.jsoup:jsoup:1.7.2'
     //tornadofx
     implementation 'no.tornado:tornadofx:1.7.17'
     //json

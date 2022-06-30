@@ -49,86 +49,87 @@ class WADJob(private val wadProject: WADProject) {
             var wadProjectGet = Pair(0,wadProject)
             while (flag) {
                 if (File("${wadProject.path}\\${wadProject.name}.wadproject").exists()) {
-                        wadProjectGet = iofj.loadProject("${wadProject.path}\\${wadProject.name}.wadproject")
-                    }
+                    wadProjectGet = iofj.loadProject("${wadProject.path}\\${wadProject.name}.wadproject")
+                }
                 var wadProject = wadProjectGet.second
                 if (wadProject.status == "") {
-                        allFiles = wadProject.projectSettings.fileLimit * wadProject.projectSettings.timestamp
+                    allFiles = wadProject.projectSettings.fileLimit * wadProject.projectSettings.timestamp
+                    WADStatic.WADstat.wadProjectList.add(
+                        ProjectStatus(
+                            wadProject.name,
+                            true,
+                            0,
+                            "Load file list: part${wadProject.projectSettings.timestamp}",
+                            allFiles,
+                            unicFiles,
+                            0
+                        )
+                    )
+
+                    val result = service.getFileList(
+                        "${wadProject.domenName}*",
+                        wadProject.projectSettings.fileLimit,
+                        wadProject.resumeKey,
+                        wadProject.projectSettings.from,
+                        wadProject.projectSettings.to,
+                        wadProject.projectSettings.fileType
+                    ).await()
+                    var fileList = result.split("\n").toMutableList()
+                    wadProject.resumeKey = fileList[fileList.size - 2]
+                    if (fileList[fileList.size - 3] == "") {
+                        fileList = fileList.subList(0, fileList.size - 3)
+                        allFiles += fileList.size
+                        fileList.replaceAll { "$it 0" }
+                        val resultSaveFile =
+                            iofj.saveFileList(
+                                "${wadProject.path}\\part${wadProject.projectSettings.timestamp}",
+                                fileList
+                            )
+                        if (resultSaveFile != -1) {
+                            flag = false
+                        }
+                        wadProject.projectSettings.timestamp += 1
+                    } else {
+                        fileList = fileList.subList(0, fileList.size - 1)
+                        wadProject.resumeKey = ""
+                        flag = false
+                        allFiles += fileList.size
+                        fileList.replaceAll { "$it 0" }
+                        val resultSaveFile =
+                            iofj.saveFileList(
+                                "${wadProject.path}\\part${wadProject.projectSettings.timestamp}",
+                                fileList
+                            )
+                        if (resultSaveFile != -1) {
+                            flag = false
+                        }
+                        wadProject.status = "1"
+                        wadProject.projectSettings.timestamp = 0
+                    }
+                    iofj.saveProject(wadProject)
+                    println(wadProject.status)
+                }
+                if (wadProject.status == "1") {
+                    while (File("${wadProject.path}\\part${wadProject.projectSettings.timestamp}").exists()) {
                         WADStatic.WADstat.wadProjectList.add(
                             ProjectStatus(
                                 wadProject.name,
                                 true,
                                 0,
-                                "Load file list: part${wadProject.projectSettings.timestamp}",
+                                "Create file list: part${wadProject.projectSettings.timestamp}",
                                 allFiles,
                                 unicFiles,
                                 0
                             )
                         )
-
-                        val result = service.getFileList(
-                            "${wadProject.domenName}*",
-                            wadProject.projectSettings.fileLimit,
-                            wadProject.resumeKey,
-                            wadProject.projectSettings.from,
-                            wadProject.projectSettings.to,
-                            wadProject.projectSettings.fileType
-                        ).await()
-                        var fileList = result.split("\n").toMutableList()
-                        wadProject.resumeKey = fileList[fileList.size - 2]
-                        if (fileList[fileList.size - 3] == "") {
-                            fileList = fileList.subList(0, fileList.size - 3)
-                            allFiles += fileList.size
-                            fileList.replaceAll { "$it 0" }
-                            val resultSaveFile =
-                                iofj.saveFileList(
-                                    "${wadProject.path}\\part${wadProject.projectSettings.timestamp}",
-                                    fileList
-                                )
-                            if (resultSaveFile != -1) {
-                                flag = false
-                            }
-                            wadProject.projectSettings.timestamp += 1
-                        } else {
-                            fileList = fileList.subList(0, fileList.size - 1)
-                            wadProject.resumeKey = ""
-                            flag = false
-                            allFiles += fileList.size
-                            fileList.replaceAll { "$it 0" }
-                            val resultSaveFile =
-                                iofj.saveFileList(
-                                    "${wadProject.path}\\part${wadProject.projectSettings.timestamp}",
-                                    fileList
-                                )
-                            if (resultSaveFile != -1) {
-                                flag = false
-                            }
-                            wadProject.status = "1"
-                            wadProject.projectSettings.timestamp = 0
+                        var result =
+                            iofj.loadFileList("${wadProject.path}\\part${wadProject.projectSettings.timestamp}")
+                        println(result.first)
+                        if (result.first == -1) {
+                            addFileList(result.second as MutableList<String>, wadProject.projectSettings.timestamp)
                         }
-                        iofj.saveProject(wadProject)
+                        wadProject.projectSettings.timestamp += 1
                     }
-                if (wadProject.status == "1") {
-                    while (File("${wadProject.path}\\part${wadProject.projectSettings.timestamp}").exists()) {
-                            WADStatic.WADstat.wadProjectList.add(
-                                ProjectStatus(
-                                    wadProject.name,
-                                    true,
-                                    0,
-                                    "Create file list: part${wadProject.projectSettings.timestamp}",
-                                    allFiles,
-                                    unicFiles,
-                                    0
-                                )
-                            )
-                            var result =
-                                iofj.loadFileList("${wadProject.path}\\part${wadProject.projectSettings.timestamp}")
-                            println(result.first)
-                            if (result.first == -1) {
-                                addFileList(result.second as MutableList<String>, wadProject.projectSettings.timestamp)
-                            }
-                            wadProject.projectSettings.timestamp += 1
-                        }
                     wadProject.projectSettings.timestamp = 0
                     filesStructureList = filesStructure.toList().toMutableList()
                     WADStatic.WADstat.wadProjectList.add(
@@ -143,10 +144,10 @@ class WADJob(private val wadProject: WADProject) {
                         )
                     )
                     wadProject.status = "2"
+                    break
                 }
-                break
             }
-        WADStatic.WADstat.wadProjectList.last{it.projectName == name}.run = false
+            WADStatic.WADstat.wadProjectList.last{it.projectName == name}.run = false
         }
     }
 
